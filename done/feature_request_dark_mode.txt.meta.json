@@ -1,0 +1,21 @@
+{
+  "name": "feature_request_dark_mode.txt",
+  "size": 358,
+  "timestamp": "2026-02-17T20:56:12.698172+00:00",
+  "status": "complete",
+  "analyzed_at": "2026-02-17T20:56:14.445876+00:00",
+  "analysis": {
+    "word_count": 56,
+    "line_count": 10,
+    "char_count": 357,
+    "key_phrases": [
+      "Feature Request: Dark Mode Support",
+      "We need to implement a dark mode toggle for the application.",
+      "Users have been requesting this feature frequently.",
+      "Requirements:",
+      "- Add a toggle switch in the settings panel"
+    ],
+    "category": "feature"
+  },
+  "completed_at": "2026-02-17T20:56:14.460476+00:00"
+}

@@ -1,0 +1,10 @@
+Feature Request: Dark Mode Support
+
+We need to implement a dark mode toggle for the application.
+Users have been requesting this feature frequently.
+
+Requirements:
+- Add a toggle switch in the settings panel
+- Support system-level dark mode preference detection
+- Persist the user's choice in local storage
+- Ensure all components respect the theme variable
