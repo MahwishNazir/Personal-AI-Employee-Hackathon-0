@@ -1,0 +1,17 @@
+{
+  "name": "test_bug_report.txt",
+  "size": 92,
+  "timestamp": "2026-02-17T12:03:53.463799+00:00",
+  "status": "complete",
+  "analyzed_at": "2026-02-17T12:03:53.526702+00:00",
+  "analysis": {
+    "word_count": 14,
+    "line_count": 1,
+    "char_count": 91,
+    "key_phrases": [
+      "Please investigate the login timeout bug that users have been reporting since last Tuesday."
+    ],
+    "category": "bug/fix"
+  },
+  "completed_at": "2026-02-17T12:03:53.606707+00:00"
+}

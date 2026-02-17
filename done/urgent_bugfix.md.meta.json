@@ -1,0 +1,17 @@
+{
+  "name": "urgent_bugfix.md",
+  "size": 52,
+  "timestamp": "2026-02-17T12:03:53.465107+00:00",
+  "status": "complete",
+  "analyzed_at": "2026-02-17T12:03:53.529618+00:00",
+  "analysis": {
+    "word_count": 9,
+    "line_count": 1,
+    "char_count": 52,
+    "key_phrases": [
+      "Urgent: fix the login crash bug before the deadline."
+    ],
+    "category": "bug/fix"
+  },
+  "completed_at": "2026-02-17T12:03:53.668349+00:00"
+}

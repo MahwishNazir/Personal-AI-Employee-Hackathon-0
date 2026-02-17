@@ -1,0 +1,238 @@
+{
+  "main": {
+    "id": "34914b45259a1d94",
+    "type": "split",
+    "children": [
+      {
+        "id": "1fe549141f84061f",
+        "type": "tabs",
+        "dimension": 76.1252446183953,
+        "children": [
+          {
+            "id": "449de0ac5fce4fa2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "company_handbook.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "company_handbook"
+            }
+          }
+        ]
+      },
+      {
+        "id": "2eb0a2ed04e9765b",
+        "type": "tabs",
+        "dimension": 23.874755381604697,
+        "children": [
+          {
+            "id": "cacd6c092bd06342",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "482d5d864737091a",
+    "type": "split",
+    "children": [
+      {
+        "id": "a9d15be90173adef",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "98008d2c33e6816d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "08c0d204eb7f8ed5",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "4f80657c5ba50df9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "7f9065a9a405daf8",
+    "type": "split",
+    "children": [
+      {
+        "id": "d04979409f578719",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7d5b1212614c73ec",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "a5aa1515c9677cda",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "78f5d88cbf73c044",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "66e89001391585bc",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "cb47968d44ea9263",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "terminal:Open terminal": false
+    }
+  },
+  "active": "449de0ac5fce4fa2",
+  "lastOpenFiles": [
+    "company_handbook.md",
+    "dashboard.md",
+    "system_logs.md",
+    "inbox/urgent_bugfix.md",
+    "done/urgent_bugfix.md.meta.json",
+    "done/urgent_bugfix.md",
+    "plans/urgent_bugfix.md.plan.md",
+    "done/Untitled.md.meta.json",
+    "done/Untitled.md",
+    "plans/Untitled.md.plan.md",
+    "done/test_bug_report.txt.meta.json",
+    "done/test_bug_report.txt",
+    "plans/test_bug_report.txt.plan.md",
+    "done/i have to complete Hackathon 0 Efficiently..md.meta.json",
+    "done/i have to complete Hackathon 0 Efficiently..md",
+    "plans/i have to complete Hackathon 0 Efficiently..md.plan.md",
+    "done/hello_task.txt.meta.json",
+    "done/hello_task.txt",
+    "plans/hello_task.txt.plan.md",
+    "needs_action/test_bug_report.txt.meta.json",
+    "needs_action/test_bug_report.txt",
+    "inbox/test_bug_report.txt",
+    "needs_action/urgent_bugfix.md",
+    "logs/summary.md",
+    "inbox/i have to complete Hackathon 0 Efficiently..md",
+    "needs_action/i have to complete Hackathon 0 Efficiently..md",
+    "needs_action/Untitled.md",
+    "README.md",
+    "venv/Lib/site-packages/pip-26.0.1.dist-info/licenses/src/pip/_vendor/idna/LICENSE.md",
+    "Untitled.md",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
+    "Welcome.md"
+  ]
+}
