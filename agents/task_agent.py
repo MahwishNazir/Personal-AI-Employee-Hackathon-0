@@ -96,8 +96,8 @@ def move_to_done(task_path: Path, meta_path: Path) -> tuple[Path, Path]:
 def update_dashboard(task_name: str, category: str, completed_at: str) -> None:
     """
     Update dashboard.md:
-      - Remove the task from '## Pending Tasks' if present
-      - Add an entry under '## Completed Tasks'
+      - Remove the task from the Pending Tasks table if present
+      - Add a row to the Completed Tasks table
     """
     if not DASHBOARD_FILE.exists():
         DASHBOARD_FILE.write_text(
@@ -107,18 +107,32 @@ def update_dashboard(task_name: str, category: str, completed_at: str) -> None:
 
     text = DASHBOARD_FILE.read_text(encoding="utf-8")
 
-    # Remove the task from Pending Tasks (any line mentioning this task name)
+    # Remove the task from Pending Tasks table (any row mentioning this task)
     lines = text.splitlines()
     lines = [l for l in lines if task_name not in l]
     text = "\n".join(lines) + "\n"
 
-    # Append entry under Completed Tasks
-    entry = f"- **{task_name}** | Category: {category} | Completed: {completed_at}\n"
+    # Format timestamp for readability
+    short_time = completed_at[:16].replace("T", " ") + " UTC"
+
+    # Add row to Completed Tasks table
+    row = f"| {task_name} | {category} | {short_time} |"
     marker = "## Completed Tasks"
     if marker in text:
-        text = text.replace(marker, marker + "\n" + entry, 1)
+        # Find the table header and insert after the header row
+        idx = text.find(marker)
+        after_marker = text[idx + len(marker):]
+        # Find the end of the table header (after |---|---|---|)
+        header_end = after_marker.find("|\n") + 1
+        if header_end > 0:
+            # Find the second header_end (after the separator row)
+            second = after_marker[header_end + 1:].find("|\n") + header_end + 2
+            insert_pos = idx + len(marker) + second
+            text = text[:insert_pos] + "\n" + row + text[insert_pos:]
+        else:
+            text = text.replace(marker, marker + "\n" + row, 1)
     else:
-        text += f"\n{marker}\n{entry}"
+        text += f"\n{marker}\n{row}\n"
 
     DASHBOARD_FILE.write_text(text, encoding="utf-8")
 

@@ -9,3 +9,7 @@ wheels/
 # Virtual environments
 .venv
 venv/
+
+# Prompts MS world document
+Prompts
+Prompts.docx
