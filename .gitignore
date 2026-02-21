@@ -13,3 +13,21 @@ venv/
 # Prompts MS world document
 Prompts
 Prompts.docx
+
+# Credentials & auth tokens
+client_secret.json
+gmail_token.json
+token.json
+*.token.json
+
+# Session data
+.linkedin_session/
+email-mcp/node_modules/
+
+# Approval queue contents (keep dirs, not files)
+Pending_Approval/*.md
+Pending_Approval/*.json
+Approved/*.md
+Approved/*.json
+Rejected/*.md
+Rejected/*.json
