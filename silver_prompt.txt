@@ -1,2 +1,88 @@
-Process EVERY file in Needs_Action/ right now.
-Follow this exact workflow: 1. For each item, create a detailed Plan_XXX.md in /Plans/ with checkboxes. 2. If the action is sensitive (email, LinkedIn post, money), create approval file in /Pending_Approval/. 3. Use all Agent Skills (human-in-the-loop, etc.). 4. Use MCP tools when approved. 5. Update Dashboard.md with clear summary. 6. When complete, move files to /Done/. Company_Handbook.md rules are highest priority. When finished, say "SILVER CYCLE COMPLETE".
+You are running a Silver Cycle for the AI Employee Vault at D:\Hackathon_0\AI_Employee_Vault.
+
+Execute the following six Agent Skills in order. Each skill has full instructions in its SKILL.md file. Read each skill file before executing its step.
+
+---
+
+SKILL 1 — /multi-watcher-orchestration
+Scan ALL input sources for new items:
+- inbox/ (local files)
+- Gmail (gmail_watcher.py, if gmail_token.json exists)
+- LinkedIn notifications (linkedin_watcher.py, if .linkedin_session/ exists)
+- WhatsApp (whatsapp_watcher.py, if .whatsapp_session/ exists)
+Normalise every new item into needs_action/ with .meta.json sidecar (status: pending).
+Deduplicate against done/. Report item counts per source.
+Skill file: .claude/skills/multi-watcher-orchestration/SKILL.md
+
+---
+
+SKILL 2 — /plan-creation-workflow
+For EVERY file in needs_action/ with status "pending":
+- Analyse content (category, key phrases, sensitivity check)
+- Generate a detailed Plan_XXX.md in plans/ with numbered checkboxes specific to the category
+- Update .meta.json status to "processing" and set "plan" and "sensitive" fields
+- Append entry to logs/summary.md
+- Route sensitive tasks to Skill 3; non-sensitive tasks continue to Skill 4 or complete directly
+Skill file: .claude/skills/plan-creation-workflow/SKILL.md
+
+---
+
+SKILL 3 — /human-approval-workflow
+Phase A — For every task flagged sensitive by Skill 2:
+  Create APPROVAL_<action>_<timestamp>.md in Pending_Approval/ using the exact template in the skill file.
+  Update dashboard and logs. STOP — do not execute.
+Phase B — Scan Approved/ and Rejected/ for any waiting decision files:
+  Approved → call Skill 4 to execute. Then archive to done/ and update dashboard.
+  Rejected → log rejection, archive to done/ (rejected), update dashboard. Do NOT retry.
+Skill file: .claude/skills/human-approval-workflow/SKILL.md
+
+---
+
+SKILL 4 — /mcp-action-handler
+Execute ONLY approved actions (files found in Approved/ during Skill 3 Phase B).
+Select the correct MCP server by action type:
+  send_email    → email-mcp (email-mcp/index.js, gmail_token.json)
+  post_linkedin → Playwright (.claude/skills/linkedin-poster/linkedin_poster.py → post_to_linkedin())
+  browser_action → Playwright (ad-hoc)
+Log result to system_logs.md. Archive approval to done/. Move source task to done/.
+On failure: move back to Pending_Approval/ with error note — do NOT retry automatically.
+Skill file: .claude/skills/mcp-action-handler/SKILL.md
+
+---
+
+SKILL 5 — /linkedin-business-poster
+Triggered if ANY of these are true:
+  a) A task in needs_action/ has category "linkedin-post"
+  b) No LinkedIn post has been made in the last 7 days (check dashboard.md)
+If triggered:
+  Read Business_Goals.md fully. Read 3 most recent plans/Plan_*.md files.
+  Choose a post angle (progress update / lesson learned / feature reveal / behind the scenes).
+  Draft a post (800–1300 chars, no markdown bold, real project details, genuine CTA).
+  Verify quality checklist in skill file.
+  Route to Skill 3 (human-approval-workflow) — NEVER post directly.
+  Update dashboard status to "pending approval".
+Skill file: .claude/skills/linkedin-business-poster/SKILL.md
+
+---
+
+SKILL 6 — /dashboard-updater
+Final step — refresh dashboard.md and system_logs.md to reflect the full cycle:
+  Update Watcher Status table with scan results from Skill 1
+  Ensure Pending Tasks table is accurate (pending items only)
+  Ensure Pending Approvals table is accurate (remove executed/rejected)
+  Ensure Active Plans table has all new plans from Skill 2
+  Update Recent LinkedIn Posts if Skill 5 ran
+  Add all newly completed tasks to Completed Tasks table
+  Append Silver Cycle Summary block to system_logs.md with counts and timestamp
+Skill file: .claude/skills/dashboard-updater/SKILL.md
+
+---
+
+RULES (highest priority — override everything else):
+1. company_handbook.md rules are absolute — read it before any action
+2. NEVER execute a sensitive action without an approval file in Approved/
+3. NEVER move approval files yourself — only humans move files to Approved/ or Rejected/
+4. NEVER skip dashboard-updater — every cycle must end with an updated dashboard
+5. If needs_action/ is empty after Skill 1, still run Skills 3, 5 (check approvals + LinkedIn), and 6
+
+When all six skills are complete, output: SILVER CYCLE COMPLETE

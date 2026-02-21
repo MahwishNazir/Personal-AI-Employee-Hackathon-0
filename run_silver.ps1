@@ -10,11 +10,20 @@ $VAULT   = "D:\Hackathon_0\AI_Employee_Vault"
 $LOGS    = "$VAULT\logs"
 $CLAUDE  = "C:\Users\User\AppData\Roaming\npm\claude.cmd"
 
-# ── Silver Cycle prompt (verbatim) ────────────────────────────────────────────
-$PROMPT = @"
-Process EVERY file in Needs_Action/ right now.
-Follow this exact workflow: 1. For each item, create a detailed Plan_XXX.md in /Plans/ with checkboxes. 2. If the action is sensitive (email, LinkedIn post, money), create approval file in /Pending_Approval/. 3. Use all Agent Skills (human-in-the-loop, etc.). 4. Use MCP tools when approved. 5. Update Dashboard.md with clear summary. 6. When complete, move files to /Done/. Company_Handbook.md rules are highest priority. When finished, say "SILVER CYCLE COMPLETE".
-"@
+# ── Silver Cycle prompt — loaded from silver_prompt.txt ──────────────────────
+# silver_prompt.txt drives all 6 Agent Skills in sequence:
+#   1. multi-watcher-orchestration
+#   2. plan-creation-workflow
+#   3. human-approval-workflow
+#   4. mcp-action-handler
+#   5. linkedin-business-poster
+#   6. dashboard-updater
+$PROMPT_FILE = "$VAULT\silver_prompt.txt"
+if (-not (Test-Path $PROMPT_FILE)) {
+    Log "ERROR: silver_prompt.txt not found at $PROMPT_FILE"
+    exit 1
+}
+$PROMPT = Get-Content $PROMPT_FILE -Raw -Encoding utf8
 
 # ── Build timestamped log filename ────────────────────────────────────────────
 $now      = Get-Date
