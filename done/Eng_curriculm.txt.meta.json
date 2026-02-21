@@ -1,0 +1,15 @@
+{
+  "name": "Eng_curriculm.txt",
+  "size": 0,
+  "timestamp": "2026-02-17T22:09:00.459584+00:00",
+  "status": "complete",
+  "analyzed_at": "2026-02-22T00:00:00+00:00",
+  "completed_at": "2026-02-22T00:00:00+00:00",
+  "cycle": "silver",
+  "analysis": {
+    "category": "education",
+    "action": "Generated 12-week English curriculum for 5-year-old early learner",
+    "plan": "plans/Plan_Eng_curriculm.md",
+    "sensitive": false
+  }
+}

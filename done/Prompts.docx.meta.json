@@ -1,0 +1,15 @@
+{
+  "name": "Prompts.docx",
+  "size": 11948,
+  "timestamp": "2026-02-17T21:50:13.535455+00:00",
+  "status": "complete",
+  "completed_at": "2026-02-22T00:00:00+00:00",
+  "cycle": "silver",
+  "analysis": {
+    "category": "project-reference",
+    "action": "Extracted, summarised, and archived Bronze Tier setup prompts document",
+    "plan": "plans/Plan_Prompts_docx.md",
+    "sensitive": false,
+    "note": "Binary .docx file — original preserved in done/, summary in plan file"
+  }
+}

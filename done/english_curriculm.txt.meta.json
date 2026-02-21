@@ -1,0 +1,15 @@
+{
+  "name": "english_curriculm.txt",
+  "size": 0,
+  "timestamp": "2026-02-17T21:56:15.920852+00:00",
+  "status": "complete",
+  "analyzed_at": "2026-02-17T21:58:47.701832+00:00",
+  "completed_at": "2026-02-22T00:00:00+00:00",
+  "cycle": "silver",
+  "analysis": {
+    "category": "general",
+    "action": "Empty file — acknowledged and archived, no deliverable",
+    "plan": "plans/Plan_english_curriculm.md",
+    "sensitive": false
+  }
+}

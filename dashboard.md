@@ -1,7 +1,7 @@
 # Dashboard
 
 > **AI Employee Vault** — Task Automation Pipeline
-> Last updated: 2026-02-18
+> Last updated: 2026-02-22 (Silver Cycle complete)
 
 ---
 
@@ -36,6 +36,9 @@
 
 | Plan | Category | Generated | Source Task |
 |------|----------|-----------|------------|
+| [Plan_Eng_curriculm.md](plans/Plan_Eng_curriculm.md) | education | 2026-02-22 | Eng_curriculm.txt |
+| [Plan_english_curriculm.md](plans/Plan_english_curriculm.md) | general | 2026-02-22 | english_curriculm.txt |
+| [Plan_Prompts_docx.md](plans/Plan_Prompts_docx.md) | project-reference | 2026-02-22 | Prompts.docx |
 | [feature_request_dark_mode.txt.plan.md](plans/feature_request_dark_mode.txt.plan.md) | feature | 2026-02-17 | feature_request_dark_mode.txt |
 | [urgent_bugfix.md.plan.md](plans/urgent_bugfix.md.plan.md) | bug/fix | 2026-02-17 | urgent_bugfix.md |
 | [hello_task.txt.plan.md](plans/hello_task.txt.plan.md) | general | 2026-02-17 | hello_task.txt |
@@ -54,14 +57,29 @@
 
 ## Completed Tasks
 
-| Task | Category | Completed |
-|------|----------|-----------|
-| feature_request_dark_mode.txt | feature | 2026-02-17 20:56 UTC |
-| urgent_bugfix.md | bug/fix | 2026-02-17 12:03 UTC |
-| test_bug_report.txt | bug/fix | 2026-02-17 12:03 UTC |
-| i have to complete Hackathon 0 Efficiently..md | general | 2026-02-17 12:03 UTC |
-| Untitled.md | general | 2026-02-17 12:03 UTC |
-| hello_task.txt | general | 2026-02-17 12:03 UTC |
+| Task | Category | Completed | Cycle |
+|------|----------|-----------|-------|
+| Eng_curriculm.txt | education | 2026-02-22 | Silver |
+| english_curriculm.txt | general | 2026-02-22 | Silver |
+| Prompts.docx | project-reference | 2026-02-22 | Silver |
+| feature_request_dark_mode.txt | feature | 2026-02-17 | Bronze |
+| urgent_bugfix.md | bug/fix | 2026-02-17 | Bronze |
+| test_bug_report.txt | bug/fix | 2026-02-17 | Bronze |
+| i have to complete Hackathon 0 Efficiently..md | general | 2026-02-17 | Bronze |
+| Untitled.md | general | 2026-02-17 | Bronze |
+| hello_task.txt | general | 2026-02-17 | Bronze |
+
+---
+
+## Silver Cycle Summary (2026-02-22)
+
+| Item | Action | Sensitive? | Approval? | Result |
+|------|--------|-----------|-----------|--------|
+| Eng_curriculm.txt | Generated 12-week English curriculum for 5-year-old | No | Not required | Done |
+| english_curriculm.txt | Empty file acknowledged and archived | No | Not required | Done |
+| Prompts.docx | Bronze Tier prompts extracted and summarised | No | Not required | Done |
+
+**needs_action/ is now empty. All 3 items processed and moved to done/.**
 
 ---
 
