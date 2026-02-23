@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "email": {
+      "command": "node",
+      "args": ["D:/Hackathon_0/AI_Employee_Vault/email-mcp/index.js"],
+      "env": {
+        "GMAIL_CREDENTIALS": "D:/Hackathon_0/AI_Employee_Vault/email-mcp/token.json"
+      }
+    }
+  }
+}

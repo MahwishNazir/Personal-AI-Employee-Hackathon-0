@@ -1,0 +1,21 @@
+{
+  "name": "email-mcp",
+  "version": "1.0.0",
+  "description": "MCP server that allows Claude to send emails via Gmail API",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "email-mcp": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "googleapis": "^144.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

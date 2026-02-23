@@ -1,0 +1,9 @@
+{
+  "name": "APPROVAL_post_linkedin_retry_20260223T222128.md",
+  "action": "post_linkedin_retry",
+  "source_task": "linkedin_post_ai_employee_vault_silver_cycle_20260221_214747.approval.md",
+  "status": "posted",
+  "executed_at": "2026-02-23T22:54:02.068925+00:00",
+  "success": true,
+  "result": "Post published to LinkedIn feed"
+}

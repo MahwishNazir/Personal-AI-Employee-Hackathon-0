@@ -273,12 +273,15 @@ def post_to_linkedin(post_text: str) -> bool:
             page.goto("https://www.linkedin.com/feed/", wait_until="domcontentloaded")
             page.wait_for_timeout(3000)
 
-            # Click the "Start a post" button
+            # Click the "Start a post" trigger
+            # Use text-based selectors — stable across LinkedIn UI deployments
             start_post_selectors = [
-                "[data-control-name='share.sharebox_text']",
-                ".share-box-feed-entry__trigger",
-                "button[aria-label='Start a post']",
-                ".share-creation-state__placeholder",
+                "p:text('Start a post')",              # current LinkedIn UI (P tag)
+                "text=Start a post",                   # Playwright text fallback
+                "[aria-placeholder='Start a post']",   # aria placeholder variant
+                "[data-control-name='share.sharebox_text']",  # legacy fallback
+                ".share-box-feed-entry__trigger",             # legacy fallback
+                "button[aria-label='Start a post']",          # legacy fallback
             ]
             clicked = False
             for sel in start_post_selectors:
@@ -290,22 +293,25 @@ def post_to_linkedin(post_text: str) -> bool:
                     continue
 
             if not clicked:
-                print("[linkedin-poster] [x]Could not find 'Start a post' button.")
+                print("[linkedin-poster] [x]Could not find 'Start a post' trigger.")
                 browser.close()
                 return False
 
             page.wait_for_timeout(2000)
 
-            # Type the post content
+            # Type the post content into the editor modal
             editor_selectors = [
                 ".ql-editor",
                 "[role='textbox']",
+                "[contenteditable='true']",
+                "div[aria-label='Text editor for creating content']",
                 ".share-creation-state__editor",
             ]
             typed = False
             for sel in editor_selectors:
                 try:
-                    page.fill(sel, post_text, timeout=5000)
+                    page.click(sel, timeout=3000)
+                    page.keyboard.type(post_text)
                     typed = True
                     break
                 except Exception:
@@ -318,11 +324,12 @@ def post_to_linkedin(post_text: str) -> bool:
 
             page.wait_for_timeout(1500)
 
-            # Click "Post" button
+            # Click the "Post" submit button — text-based for stability
             post_btn_selectors = [
-                "button[data-control-name='share.post']",
-                ".share-actions__primary-action",
-                "button.share-box_actions",
+                "button:text('Post')",                          # text-based (stable)
+                "button[aria-label='Post']",                    # aria label
+                "button[data-control-name='share.post']",       # legacy
+                ".share-actions__primary-action",               # legacy
             ]
             posted = False
             for sel in post_btn_selectors:
