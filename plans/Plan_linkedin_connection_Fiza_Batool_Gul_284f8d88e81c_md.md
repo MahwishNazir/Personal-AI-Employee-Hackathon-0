@@ -1,56 +1,28 @@
-# Plan: linkedin_connection_Fiza_Batool_Gul_284f8d88e81c.md
+# Plan: LinkedIn Connection Request — Fiza Batool Gul
 
-**Category:** feature
-**Source:** inbox
-**Sensitive:** No
+**Category:** connection
+**Actor:** Fiza Batool Gul
+**Source:** linkedin
+**Sensitive:** Yes
 **Generated:** 2026-02-23T22:12:52.429702+00:00
-**Cycle:** Silver
+**Mutual connections:** 1
+**Notification age:** 2d
 
 ---
 
 ## Summary
-Task from inbox: linkedin_connection_Fiza_Batool_Gul_284f8d88e81c.md. Review and complete as appropriate.
+Fiza Batool Gul has sent a connection request. 1 mutual connection. Notification is 2 days old — requires prompt attention.
 
-## Checklist
+## Action Checklist
 
-- [ ] Read and confirm task content understood
-- [ ] Categorise as: feature
-- [ ] Sensitivity check: Not sensitive
-- [ ] Define requirements from task
-- [ ] Outline implementation steps
-- [ ] List affected files/components
-- [ ] Complete directly or via mcp-action-handler
-- [ ] Update dashboard via dashboard-updater
-- [ ] Move task file to done/
+- [ ] Review Fiza Batool Gul's profile to assess relevance (industry, role, shared interests)
+- [ ] Decision: Accept connection request (1 mutual connection — low-risk, likely relevant network addition)
+- [ ] Draft welcome message: "Hi Fiza, glad to connect! Always great to expand the network with professionals in your field. Looking forward to engaging with your content."
+- [ ] Send welcome message upon accepting the connection
+- [ ] Tag/note new connection in contacts if she falls within a key professional domain
 
-## Key Information Extracted
-- # LinkedIn Notification — Connection
-- - **From:** Fiza Batool Gul
-- - **Category:** connection
-- - **Notification time:** 2d
-- - **Captured:** 2026-02-23T22:06:57.580161+00:00
-
-## Original Content
+## Original Notification
 ```
-# LinkedIn Notification — Connection
-
-- **From:** Fiza Batool Gul
-- **Category:** connection
-- **Notification time:** 2d
-- **Captured:** 2026-02-23T22:06:57.580161+00:00
-- **Matched keywords:** connection
-
-## Content
-
-Unread notification.
-
 You may know Fiza Batool Gul. Add to your network.
---
 1 mutual connection
-
-2d
-
 ```
-
-## Agent Notes
-<!-- Routed to human-approval-workflow — sensitive task requires human review -->

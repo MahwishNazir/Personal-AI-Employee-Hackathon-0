@@ -1,0 +1,28 @@
+{
+  "name": "linkedin_post_Majid_Sheikh_733fcc366d35.md",
+  "size": 726,
+  "timestamp": "2026-02-23T22:06:57.576967+00:00",
+  "status": "complete",
+  "type": "linkedin",
+  "category": "feature",
+  "actor": "Majid Sheikh",
+  "matched_keywords": [
+    "posted"
+  ],
+  "analyzed_at": "2026-02-23T22:12:52.429702+00:00",
+  "sensitive": true,
+  "plan": "plans/Plan_linkedin_post_Majid_Sheikh_733fcc366d35_md.md",
+  "analysis": {
+    "word_count": 103,
+    "line_count": 15,
+    "char_count": 696,
+    "key_phrases": [
+      "# LinkedIn Notification \u2014 Post",
+      "- **From:** Majid Sheikh",
+      "- **Category:** post",
+      "- **Notification time:** 12h",
+      "- **Captured:** 2026-02-23T22:06:57.576388+00:00"
+    ],
+    "category": "feature"
+  }
+}

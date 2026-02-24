@@ -1,0 +1,29 @@
+{
+  "name": "linkedin_connection_Fiza_Batool_Gul_284f8d88e81c.md",
+  "size": 337,
+  "timestamp": "2026-02-23T22:06:57.580686+00:00",
+  "status": "complete",
+  "type": "linkedin",
+  "category": "feature",
+  "actor": "Fiza Batool Gul",
+  "matched_keywords": [
+    "connection"
+  ],
+  "analyzed_at": "2026-02-23T22:12:52.429702+00:00",
+  "sensitive": true,
+  "plan": "plans/Plan_linkedin_connection_Fiza_Batool_Gul_284f8d88e81c_md.md",
+  "analysis": {
+    "word_count": 43,
+    "line_count": 17,
+    "char_count": 317,
+    "key_phrases": [
+      "# LinkedIn Notification \u2014 Connection",
+      "- **From:** Fiza Batool Gul",
+      "- **Category:** connection",
+      "- **Notification time:** 2d",
+      "- **Captured:** 2026-02-23T22:06:57.580161+00:00"
+    ],
+    "category": "feature"
+  },
+  "source": "linkedin"
+}

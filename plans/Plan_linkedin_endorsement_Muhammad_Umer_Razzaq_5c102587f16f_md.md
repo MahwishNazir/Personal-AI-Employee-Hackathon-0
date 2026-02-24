@@ -1,56 +1,27 @@
-# Plan: linkedin_endorsement_Muhammad_Umer_Razzaq_5c102587f16f.md
+# Plan: LinkedIn Promotion Congratulations — Muhammad Umer Razzaq (5c102587) [DUPLICATE]
 
-**Category:** linkedin-post
-**Source:** inbox
+**Category:** endorsement / promotion milestone
+**Actor:** Muhammad Umer Razzaq
+**Source:** linkedin
 **Sensitive:** Yes
 **Generated:** 2026-02-23T22:12:52.429702+00:00
-**Cycle:** Silver
+**Notification age:** 19h
+**Note:** Duplicate of `4428c43fe4b4` — captured 31 seconds later for the same promotion event
 
 ---
 
 ## Summary
-Task from inbox: linkedin_endorsement_Muhammad_Umer_Razzaq_5c102587f16f.md. Review and complete as appropriate.
+Duplicate notification for the same promotion event already captured in `linkedin_endorsement_Muhammad_Umer_Razzaq_4428c43fe4b4.md`. No duplicate outreach should be sent.
 
-## Checklist
+## Action Checklist
 
-- [ ] Read and confirm task content understood
-- [ ] Categorise as: linkedin-post
-- [ ] Sensitivity check: Sensitive (Approved / Rejected)
-- [ ] Review LinkedIn notification content
-- [ ] Decide on engagement action (like, comment, connect)
-- [ ] Route any outbound action to human-approval-workflow
-- [ ] Route to human-approval-workflow (sensitive)
-- [ ] Update dashboard via dashboard-updater
-- [ ] Move task file to done/
+- [ ] Identify as duplicate: same actor (Muhammad Umer Razzaq), same event (Senior IT Officer promotion), same notification age (19h)
+- [ ] Confirm congratulations action was already queued from file `4428c43fe4b4` — do NOT send a second message
+- [ ] Deduplicate: mark this file as handled without triggering any external action
+- [ ] Optionally endorse 1 additional skill on Muhammad Umer's profile if not already done from the first notification
+- [ ] Archive as processed — no further action required
 
-## Key Information Extracted
-- # LinkedIn Notification — Endorsement
-- - **From:** Muhammad Umer Razzaq
-- - **Category:** endorsement
-- - **Notification time:** 19h
-- - **Captured:** 2026-02-23T22:07:28.029636+00:00
-
-## Original Content
+## Original Notification
 ```
-# LinkedIn Notification — Endorsement
-
-- **From:** Muhammad Umer Razzaq
-- **Category:** endorsement
-- **Notification time:** 19h
-- **Captured:** 2026-02-23T22:07:28.029636+00:00
-- **Matched keywords:** congratulate
-
-## Content
-
-Unread notification.
-
 Congratulate Muhammad Umer Razzaq on being promoted to Senior Information Technology Officer at Naeem Shafi (Pvt) Ltd.
-Say congrats
-Say congrats to Muhammad Umer
-
-19h
-
 ```
-
-## Agent Notes
-<!-- Routed to human-approval-workflow — sensitive task requires human review -->

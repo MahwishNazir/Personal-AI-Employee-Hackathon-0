@@ -1,0 +1,28 @@
+{
+  "name": "linkedin_engagement_Majid_Sheikh_82b612a2228a.md",
+  "size": 652,
+  "timestamp": "2026-02-23T22:06:57.579350+00:00",
+  "status": "complete",
+  "type": "linkedin",
+  "category": "education",
+  "actor": "Majid Sheikh",
+  "matched_keywords": [
+    "commented"
+  ],
+  "analyzed_at": "2026-02-23T22:12:52.429702+00:00",
+  "sensitive": true,
+  "plan": "plans/Plan_linkedin_engagement_Majid_Sheikh_82b612a2228a_md.md",
+  "analysis": {
+    "word_count": 82,
+    "line_count": 15,
+    "char_count": 632,
+    "key_phrases": [
+      "# LinkedIn Notification \u2014 Engagement",
+      "- **From:** Majid Sheikh",
+      "- **Category:** engagement",
+      "- **Notification time:** 1d",
+      "- **Captured:** 2026-02-23T22:06:57.578808+00:00"
+    ],
+    "category": "education"
+  }
+}

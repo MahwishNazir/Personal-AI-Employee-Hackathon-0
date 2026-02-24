@@ -1,0 +1,28 @@
+{
+  "name": "linkedin_endorsement_Muhammad_Umer_Razzaq_5c102587f16f.md",
+  "size": 436,
+  "timestamp": "2026-02-23T22:07:28.030299+00:00",
+  "status": "complete",
+  "type": "linkedin",
+  "category": "linkedin-post",
+  "actor": "Muhammad Umer Razzaq",
+  "matched_keywords": [
+    "congratulate"
+  ],
+  "analyzed_at": "2026-02-23T22:12:52.429702+00:00",
+  "sensitive": true,
+  "plan": "plans/Plan_linkedin_endorsement_Muhammad_Umer_Razzaq_5c102587f16f_md.md",
+  "analysis": {
+    "word_count": 53,
+    "line_count": 17,
+    "char_count": 416,
+    "key_phrases": [
+      "# LinkedIn Notification \u2014 Endorsement",
+      "- **From:** Muhammad Umer Razzaq",
+      "- **Category:** endorsement",
+      "- **Notification time:** 19h",
+      "- **Captured:** 2026-02-23T22:07:28.029636+00:00"
+    ],
+    "category": "linkedin-post"
+  }
+}

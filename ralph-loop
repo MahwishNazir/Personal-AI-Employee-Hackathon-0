@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# =============================================================================
+# ralph-loop — Bash wrapper for the Ralph Wiggum Persistent Loop
+#
+# Usage (Git Bash / WSL / Linux):
+#   ./ralph-loop "Process all items in needs_action"
+#   ./ralph-loop --max-iterations 10 "Write CEO briefing"
+#   ./ralph-loop --completion-promise DONE --prompt-file silver_prompt.txt
+#   ./ralph-loop --resume "Process all items in needs_action"
+#
+# Equivalent Windows command:
+#   ralph-loop.bat "Process all items in needs_action"
+# =============================================================================
+
+set -euo pipefail
+
+# ── Locate vault and Python ───────────────────────────────────────────────────
+VAULT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Prefer virtualenv Python, fall back to system python3 / python
+if [[ -f "$VAULT/venv/Scripts/python.exe" ]]; then
+    PYTHON="$VAULT/venv/Scripts/python.exe"
+elif [[ -f "$VAULT/venv/bin/python" ]]; then
+    PYTHON="$VAULT/venv/bin/python"
+elif command -v python3 &>/dev/null; then
+    PYTHON="python3"
+else
+    PYTHON="python"
+fi
+
+# ── Guard: require at least one argument ─────────────────────────────────────
+if [[ $# -eq 0 ]]; then
+    echo "Usage: ./ralph-loop [OPTIONS] \"<TASK PROMPT>\""
+    echo "       ./ralph-loop --help"
+    exit 1
+fi
+
+# ── Ensure log directory exists ───────────────────────────────────────────────
+mkdir -p "$VAULT/logs"
+mkdir -p "$VAULT/Ralph_State"
+
+# ── Execute ───────────────────────────────────────────────────────────────────
+exec "$PYTHON" "$VAULT/ralph_loop.py" "$@"
