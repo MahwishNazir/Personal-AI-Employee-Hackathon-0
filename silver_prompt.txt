@@ -78,11 +78,32 @@ Skill file: .claude/skills/dashboard-updater/SKILL.md
 
 ---
 
+---
+
+PRE-FLIGHT — /watchdog (optional health check)
+Before Skill 1, read watchdog_status.json (if it exists).
+- If absent OR last checked_at > 5 minutes ago: create ALERT_watchdog_down_<timestamp>.md in Pending_Approval/ and log via log-action.
+- If any process shows alive: false: log the dead process and note it in system_logs.md.
+- Do NOT halt the cycle — continue to Skill 1 regardless.
+Skill file: .claude/skills/watchdog/SKILL.md
+
+---
+
 RULES (highest priority — override everything else):
 1. company_handbook.md rules are absolute — read it before any action
 2. NEVER execute a sensitive action without an approval file in Approved/
 3. NEVER move approval files yourself — only humans move files to Approved/ or Rejected/
 4. NEVER skip dashboard-updater — every cycle must end with an updated dashboard
 5. If needs_action/ is empty after Skill 1, still run Skills 3, 5 (check approvals + LinkedIn), and 6
+
+ERROR HANDLING RULES (mandatory — applies to every skill above):
+6. On ANY network/API/timeout error: invoke handle-transient-error FIRST (5 retries, exponential backoff).
+   Skill file: .claude/skills/handle-transient-error/SKILL.md
+7. If all retries fail on a non-critical task: invoke queue-for-later (RETRY_ file, 1-hour cooldown).
+   Skill file: .claude/skills/queue-for-later/SKILL.md
+8. If all retries fail on a critical action OR retry_count >= 3: invoke graceful-degrade
+   (→ deferred_queue.json + ALERT in Pending_Approval/). NEVER halt the cycle.
+   Skill file: .claude/skills/graceful-degrade/SKILL.md
+9. NEVER swallow exceptions silently. Every error → log-action entry + escalation skill.
 
 When all six skills are complete, output: SILVER CYCLE COMPLETE

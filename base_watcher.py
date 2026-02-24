@@ -7,6 +7,15 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 
 from audit_logger import log_action
+from skills.error_recovery import with_retry, graceful_degrade
+
+# Transient network/API errors that trigger automatic retry
+_TRANSIENT_EXCEPTIONS = (
+    ConnectionRefusedError,
+    ConnectionResetError,
+    TimeoutError,
+    OSError,   # covers most socket-level errors
+)
 
 
 class BaseWatcher(ABC):
@@ -56,9 +65,26 @@ class BaseWatcher(ABC):
                     approval_status="n_a",
                     result="pending",
                 )
-                items = self.check_for_updates()
+
+                # Wrap check_for_updates with automatic exponential backoff
+                # (max 5 retries: 1→2→4→8→16s) for transient network errors.
+                items = with_retry(
+                    self.check_for_updates,
+                    max_retries=5,
+                    base_delay=1.0,
+                    retryable_exceptions=_TRANSIENT_EXCEPTIONS,
+                    on_retry=lambda attempt, exc, delay: log_action(
+                        action_type="retry_attempt",
+                        actor=actor,
+                        target="check_for_updates",
+                        parameters={"attempt": attempt, "wait_seconds": delay, "error": str(exc)},
+                        result="pending",
+                    ),
+                )
+
                 for item in items:
                     self.create_action_file(item)
+
                 log_action(
                     action_type="watcher_scan",
                     actor=actor,
@@ -67,7 +93,30 @@ class BaseWatcher(ABC):
                     approval_status="n_a",
                     result="success",
                 )
+
+            except _TRANSIENT_EXCEPTIONS as e:
+                # All 5 retries exhausted — defer via graceful_degrade so no
+                # scan is silently dropped and the human is notified.
+                self.logger.error(f"All retries exhausted: {e}")
+                log_action(
+                    action_type="transient_error_exhausted",
+                    actor=actor,
+                    target="check_for_updates",
+                    parameters={"source": actor, "total_attempts": 6},
+                    result="fail",
+                    error=str(e),
+                )
+                graceful_degrade(
+                    failed_action="watcher_scan",
+                    error=str(e),
+                    deferred_payload={"watcher": actor, "interval": self.check_interval},
+                    priority="medium",
+                    actor=actor,
+                    service_name=actor,
+                )
+
             except Exception as e:
+                # Non-transient or unexpected error — log and continue loop
                 self.logger.error(f"Error: {e}")
                 log_action(
                     action_type="error",
@@ -78,4 +127,5 @@ class BaseWatcher(ABC):
                     result="fail",
                     error=str(e),
                 )
+
             time.sleep(self.check_interval)
