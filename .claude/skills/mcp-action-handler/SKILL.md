@@ -106,6 +106,19 @@ Parse the `Approved/APPROVAL_<...>.md`:
 
 ### Step 3 — Execute
 
+Before running the action, write a pre-execution audit entry:
+```python
+from audit_logger import log_action
+log_action(
+    action_type="mcp_call",
+    actor="<mcp-name>",           # e.g. "email-mcp" or "linkedin-mcp"
+    target="<recipient or URL>",
+    parameters={"action": "<action-type>", "approval_file": "<APPROVAL_...md>"},
+    approval_status="approved",
+    result="pending",
+)
+```
+
 Run the action. Capture:
 - Exit code / success boolean
 - Response data (message ID, post URL, etc.)
@@ -120,6 +133,22 @@ Write to `system_logs.md`:
   Result: <message ID / post URL / error>
   Executed: <ISO-8601-UTC>
 ```
+
+Then write a structured audit entry (use the correct `action_type` for the outcome):
+```python
+log_action(
+    action_type="email_sent",     # or "linkedin_post" / "error" / etc.
+    actor="<mcp-name>",
+    target="<recipient or URL>",
+    parameters={"message_id": "<id>", "subject": "<subject>"},  # never body content
+    approval_status="approved",
+    result="success",             # or "fail"
+    error=None,                   # or error string on failure
+)
+```
+
+**Privacy rule:** Never log email body content or full LinkedIn post text in `parameters`.
+Log only: recipient, subject, message_id (email) or first 60 characters of post (LinkedIn).
 
 ### Step 5 — Archive
 

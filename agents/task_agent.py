@@ -16,6 +16,10 @@ import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from audit_logger import log_action, ACTOR_TASK_AGENT
+
 # ── Configuration ──────────────────────────────────────────────────────────
 VAULT_DIR = Path(__file__).parent.parent       # Root of the vault
 NEEDS_ACTION_DIR = VAULT_DIR / "needs_action"
@@ -184,6 +188,15 @@ def run() -> int:
         # Step 2: Generate plan
         plan_path = generate_plan(task_name, content, meta)
         print(f"         Plan -> {plan_path}")
+        log_action(
+            action_type="plan_created",
+            actor=ACTOR_TASK_AGENT,
+            target=str(plan_path.relative_to(VAULT_DIR)),
+            parameters={"source_task": task_name,
+                        "category": meta.get("analysis", {}).get("category", "general")},
+            approval_status="n_a",
+            result="success",
+        )
 
         # Step 3: Mark complete
         meta = mark_complete(meta_path, meta)
@@ -199,6 +212,16 @@ def run() -> int:
 
         # Step 6: Log to system_logs.md
         update_system_logs(task_name, category)
+
+        # Audit log — task completed
+        log_action(
+            action_type="status_transition",
+            actor=ACTOR_TASK_AGENT,
+            target=f"done/{task_name}",
+            parameters={"from": "processing", "to": "complete", "category": category},
+            approval_status="n_a",
+            result="success",
+        )
 
         print(f"         Status: {meta['status']}\n")
 

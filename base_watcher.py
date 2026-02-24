@@ -6,6 +6,8 @@ from pathlib import Path
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 
+from audit_logger import log_action
+
 
 class BaseWatcher(ABC):
     def __init__(self, vault_path: str, check_interval: int = 60):
@@ -42,12 +44,38 @@ class BaseWatcher(ABC):
         return meta_path
 
     def run(self):
+        actor = self.__class__.__name__.lower().replace("watcher", "-watcher")
         self.logger.info(f"Starting {self.__class__.__name__}")
         while True:
             try:
+                log_action(
+                    action_type="watcher_scan",
+                    actor=actor,
+                    target="needs_action/",
+                    parameters={"source": actor},
+                    approval_status="n_a",
+                    result="pending",
+                )
                 items = self.check_for_updates()
                 for item in items:
                     self.create_action_file(item)
+                log_action(
+                    action_type="watcher_scan",
+                    actor=actor,
+                    target="needs_action/",
+                    parameters={"source": actor, "items_found": len(items)},
+                    approval_status="n_a",
+                    result="success",
+                )
             except Exception as e:
                 self.logger.error(f"Error: {e}")
+                log_action(
+                    action_type="error",
+                    actor=actor,
+                    target="needs_action/",
+                    parameters={"source": actor},
+                    approval_status="n_a",
+                    result="fail",
+                    error=str(e),
+                )
             time.sleep(self.check_interval)

@@ -42,6 +42,24 @@ lands in `needs_action/` in a consistent format before any planning or action be
 
 ## Instructions
 
+### Step 0 — Log scan start (audit)
+
+Before scanning any source, write one audit entry to mark the cycle beginning:
+
+```python
+from audit_logger import log_action
+log_action(
+    action_type="watcher_scan",
+    actor="claude",
+    target="needs_action/",
+    parameters={"sources": ["inbox", "gmail", "linkedin", "whatsapp"], "phase": "start"},
+    approval_status="n_a",
+    result="pending",
+)
+```
+
+---
+
 ### Step 1 — Scan inbox/ (Bronze watcher)
 
 Check `inbox/` for any files not yet present in `needs_action/` or `done/`.
@@ -93,7 +111,19 @@ and log to `logs/summary.md`:
 [SKIP] <filename> already in done/ — skipped by multi-watcher-orchestration
 ```
 
-### Step 6 — Report
+Also write a structured audit entry for each skip:
+```python
+log_action(
+    action_type="dedup_skip",
+    actor="claude",
+    target=f"needs_action/{filename}",
+    parameters={"reason": "already in done/"},
+    approval_status="n_a",
+    result="skip",
+)
+```
+
+### Step 6 — Report and audit log
 
 After scanning all sources, output a summary:
 ```
@@ -106,6 +136,21 @@ After scanning all sources, output a summary:
 ```
 
 Append this summary to `logs/summary.md` with a timestamp.
+
+Then write the closing audit entry for this scan cycle:
+```python
+log_action(
+    action_type="watcher_scan",
+    actor="claude",
+    target="needs_action/",
+    parameters={
+        "inbox": N, "gmail": N, "linkedin": N, "whatsapp": N,
+        "total": N, "phase": "complete",
+    },
+    approval_status="n_a",
+    result="success",
+)
+```
 
 ---
 

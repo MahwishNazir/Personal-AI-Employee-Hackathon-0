@@ -31,3 +31,7 @@ Approved/*.md
 Approved/*.json
 Rejected/*.md
 Rejected/*.json
+
+# Audit logs — never sync to cloud or push to git
+# (Logs/ contains structured JSON audit trail with PII-adjacent data)
+Logs/

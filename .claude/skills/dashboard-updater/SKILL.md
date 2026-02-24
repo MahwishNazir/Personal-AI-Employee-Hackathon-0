@@ -216,6 +216,47 @@ SILVER CYCLE COMPLETE
 
 ---
 
+### Operation I — Update Recent Audit Summary
+
+**Called by:** `dashboard-updater` itself, at the end of every Silver Cycle run.
+
+Read the last 10 audit entries from `Logs/` using the Python helper:
+
+```python
+from audit_logger import get_recent_actions, format_audit_table
+entries = get_recent_actions(10)
+table_md = format_audit_table(entries)
+```
+
+Replace the entire `## Recent Audit Summary` section in `dashboard.md` with:
+
+```markdown
+## Recent Audit Summary
+
+> Last 10 actions logged to `Logs/YYYY-MM-DD.json`. Updated each Silver Cycle by `dashboard-updater`.
+> Full log: `python -c "from audit_logger import get_recent_actions, format_audit_table; print(format_audit_table(get_recent_actions(20)))"`
+
+| Timestamp (UTC) | Action Type | Actor | Target | Approval | Result |
+|-----------------|-------------|-------|--------|----------|--------|
+| <row> | ... | ... | ... | ... | ... |
+```
+
+If no log files exist yet, show: `_No audit entries recorded yet._`
+
+After updating the section, log this operation itself:
+```python
+log_action(
+    action_type="dashboard_update",
+    actor="claude",
+    target="dashboard.md",
+    parameters={"operation": "audit_table_refresh", "entries_shown": len(entries)},
+    approval_status="n_a",
+    result="success",
+)
+```
+
+---
+
 ## Update Rules
 
 1. **Always update the "Last updated" timestamp** at the top of `dashboard.md`
@@ -223,6 +264,7 @@ SILVER CYCLE COMPLETE
 3. **Write atomically** — read the full file, apply all changes, write it back once
 4. **Preserve all markdown formatting** — tables must remain valid markdown
 5. **Handle missing sections gracefully** — create any missing section header before inserting rows
+6. **Always call `log-action`** for every dashboard write (Operation I handles this automatically)
 
 ---
 

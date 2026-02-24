@@ -14,6 +14,10 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from audit_logger import log_action, ACTOR_TASK_ANALYZER
+
 # ── Configuration ──────────────────────────────────────────────────────────
 VAULT_DIR = Path(__file__).parent.parent       # Root of the vault
 NEEDS_ACTION_DIR = VAULT_DIR / "needs_action"
@@ -170,6 +174,21 @@ def run() -> int:
         print(f"           Words:      {analysis['word_count']}")
         print(f"           Status:     {meta['status']}")
         print(f"           Summary -> {SUMMARY_FILE}\n")
+
+        # Audit log — status transition + analysis recorded
+        log_action(
+            action_type="status_transition",
+            actor=ACTOR_TASK_ANALYZER,
+            target=f"needs_action/{task_name}",
+            parameters={
+                "from": "pending",
+                "to": "processing",
+                "category": analysis["category"],
+                "word_count": analysis["word_count"],
+            },
+            approval_status="n_a",
+            result="success",
+        )
 
     print(f"[analyzer] Done. Processed {len(pending)} task(s).")
     return len(pending)

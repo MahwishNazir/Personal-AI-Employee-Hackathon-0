@@ -133,4 +133,15 @@
 
 ---
 
+---
+
+## Recent Audit Summary
+
+> Last 10 actions logged to `Logs/YYYY-MM-DD.json`. Updated each Silver Cycle by `dashboard-updater`.
+> Full log: `python -c "from audit_logger import get_recent_actions, format_audit_table; print(format_audit_table(get_recent_actions(20)))"`
+
+_No audit entries recorded yet. Logs will appear here after the first Silver Cycle run._
+
+---
+
 *Managed by AI Employee Vault — Hackathon 0*

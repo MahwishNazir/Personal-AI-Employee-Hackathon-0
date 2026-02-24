@@ -109,7 +109,20 @@ Write `Pending_Approval/APPROVAL_<...>.md.meta.json`:
 1. Call `dashboard-updater` → add row to **Pending Approvals** table
 2. Update `needs_action/<task>.meta.json` → `"status": "awaiting_approval"`
 3. Log to `system_logs.md`: `[APPROVAL CREATED] <filename> — <action-type>`
-4. **Stop processing this task** — do not proceed to mcp-action-handler
+4. Write structured audit entry:
+   ```python
+   from audit_logger import log_action
+   log_action(
+       action_type="approval_created",
+       actor="claude",
+       target="Pending_Approval/<APPROVAL_filename>.md",
+       parameters={"action_type": "<action>", "source_task": "<task>",
+                   "priority": "<priority>"},
+       approval_status="pending",
+       result="success",
+   )
+   ```
+5. **Stop processing this task** — do not proceed to mcp-action-handler
 
 ---
 
@@ -123,21 +136,44 @@ Scan `Approved/` and `Rejected/` for any `APPROVAL_*.md` files.
 
 1. Read the file — use the (possibly human-edited) **Draft Content** section
 2. Load companion `.meta.json` for action type and source task
-3. Call `mcp-action-handler` with the approved content
-4. After execution: move approval file to `done/`
-5. Update `needs_action/<source-task>.meta.json` → `"status": "complete"`
-6. Move source task file to `done/`
-7. Call `dashboard-updater` → move from Pending Approvals → Completed
-8. Log to `system_logs.md`: `[APPROVED + EXECUTED] <filename>`
+3. Write audit entry before handing off:
+   ```python
+   log_action(
+       action_type="approval_approved",
+       actor="claude",
+       target="Approved/<APPROVAL_filename>.md",
+       parameters={"action_type": "<action>", "source_task": "<task>"},
+       approval_status="approved",
+       result="success",
+   )
+   ```
+4. Call `mcp-action-handler` with the approved content
+5. After execution: move approval file to `done/`
+6. Update `needs_action/<source-task>.meta.json` → `"status": "complete"`
+7. Move source task file to `done/`
+8. Call `dashboard-updater` → move from Pending Approvals → Completed
+9. Log to `system_logs.md`: `[APPROVED + EXECUTED] <filename>`
 
 #### If file found in Rejected/
 
 1. Read any human note in the file
-2. Update `needs_action/<source-task>.meta.json` → `"status": "rejected"`
-3. Move source task file to `done/` (with rejected status)
-4. Call `dashboard-updater` → remove from Pending Approvals, log rejection
-5. Log to `system_logs.md`: `[REJECTED] <filename> — <human note if present>`
-6. **Do NOT retry** — require explicit new instructions to reprocess
+2. Write audit entry:
+   ```python
+   log_action(
+       action_type="approval_rejected",
+       actor="claude",
+       target="Rejected/<APPROVAL_filename>.md",
+       parameters={"action_type": "<action>", "source_task": "<task>",
+                   "human_note": "<note if present>"},
+       approval_status="rejected",
+       result="skip",
+   )
+   ```
+3. Update `needs_action/<source-task>.meta.json` → `"status": "rejected"`
+4. Move source task file to `done/` (with rejected status)
+5. Call `dashboard-updater` → remove from Pending Approvals, log rejection
+6. Log to `system_logs.md`: `[REJECTED] <filename> — <human note if present>`
+7. **Do NOT retry** — require explicit new instructions to reprocess
 
 ---
 

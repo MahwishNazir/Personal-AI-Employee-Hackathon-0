@@ -15,6 +15,8 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+from audit_logger import log_action, ACTOR_WATCHER
+
 # ── Configuration ──────────────────────────────────────────────────────────
 VAULT_DIR = Path(__file__).parent          # Root of the vault
 INBOX_DIR = VAULT_DIR / "inbox"            # Where new files arrive
@@ -66,21 +68,42 @@ def process_file(file_path: Path) -> None:
     Handle a single new file detected in the inbox:
       1. Copy the file to needs_action/
       2. Generate and write a .meta.json sidecar file
-      3. Log the action to the console
+      3. Log the action to the console and audit log
     """
     dest_path = NEEDS_ACTION_DIR / file_path.name
 
-    # Copy the file (preserving metadata like modification time)
-    shutil.copy2(file_path, dest_path)
+    try:
+        # Copy the file (preserving metadata like modification time)
+        shutil.copy2(file_path, dest_path)
 
-    # Create the companion metadata file
-    meta = build_metadata(file_path)
-    meta_path = write_metadata(meta, dest_path)
+        # Create the companion metadata file
+        meta = build_metadata(file_path)
+        meta_path = write_metadata(meta, dest_path)
 
-    print(f"[watcher] Processed: {file_path.name}")
-    print(f"          -> Copied to:  {dest_path}")
-    print(f"          -> Metadata:   {meta_path}")
-    print(f"          -> Status:     {meta['status']}")
+        print(f"[watcher] Processed: {file_path.name}")
+        print(f"          -> Copied to:  {dest_path}")
+        print(f"          -> Metadata:   {meta_path}")
+        print(f"          -> Status:     {meta['status']}")
+
+        log_action(
+            action_type="file_write",
+            actor=ACTOR_WATCHER,
+            target=f"needs_action/{file_path.name}",
+            parameters={"size": meta["size"], "source": "inbox"},
+            approval_status="n_a",
+            result="success",
+        )
+    except Exception as exc:
+        log_action(
+            action_type="file_write",
+            actor=ACTOR_WATCHER,
+            target=f"needs_action/{file_path.name}",
+            parameters={"source": "inbox"},
+            approval_status="n_a",
+            result="fail",
+            error=str(exc),
+        )
+        raise
 
 
 def scan_inbox() -> None:
