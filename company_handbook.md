@@ -151,6 +151,81 @@ All task files MUST have a `.meta.json` sidecar with the same base name.
 
 ---
 
+## Section 9 — Cross-Domain Routing Rules
+
+Every task that enters the pipeline belongs to a domain: **personal**, **business**, or **both**.
+The `route-cross-domain-task` skill determines this before any plan is created.
+
+### 9.1 Domain Classification
+
+| Domain | Signal types |
+|--------|-------------|
+| `business` | Invoice, payment, Odoo, client, contract, vendor, CRM, HR, budget, revenue |
+| `personal` | Family, health, school, grocery, vacation, friends, lifestyle |
+| `both` | Business AND personal signals both present in same task |
+| default | No signals matched → `personal` |
+
+### 9.2 Cross-Domain Rules (CD-1 to CD-6)
+
+Rules are checked in order. **First match wins.**
+
+| Rule | Trigger | Required Action | Route |
+|------|---------|----------------|-------|
+| **CD-1** | WhatsApp + payment/invoice keyword + monetary pattern | 1. Check Odoo for open invoice (read-only). 2. Check bank balance (read-only). 3. Include both in plan. | `human-approval-workflow` IMMEDIATELY |
+| **CD-2** | WhatsApp + personal signal + monetary pattern | Classify as `both`. Create dual plan. Flag sensitive. | `human-approval-workflow` |
+| **CD-3** | LinkedIn message or connection request | Look up sender in done/ history. Known client → business. Unknown → personal. | `plan-creation-workflow` |
+| **CD-4** | Gmail + invoice/contract/purchase order | Always classify `business`. Add Odoo cross-check step to plan. | `human-approval-workflow` |
+| **CD-5** | Domain = `both` (business + personal signals both present) | Split into two plan files: `Plan_PERSONAL_<slug>.md` + `Plan_BUSINESS_<slug>.md`. Each routes independently. | `split` |
+| **CD-6** | Urgent keywords (`urgent`, `asap`, `deadline`) + domain is `business` or `both` | Add ⚡ URGENT tag. Set `priority: high`. Escalate regardless of sensitivity. | `human-approval-workflow` |
+
+### 9.3 WhatsApp Payment Protocol (CD-1 in detail)
+
+This is the most critical cross-domain scenario:
+
+```
+WhatsApp message with payment/transfer request
+    │
+    ▼
+Step 1 — Odoo invoice check (READ-ONLY)
+    │  Found matching invoice → record invoice ID + amount in plan
+    │  No invoice found     → note "no matching Odoo invoice" in plan
+    ▼
+Step 2 — Bank balance check (READ-ONLY)
+    │  Record available balance in plan
+    │  Confirm balance ≥ requested amount
+    ▼
+Step 3 — Create Plan with domain=business, sensitive=true
+    ▼
+Step 4 — Route to human-approval-workflow
+    │
+    └── Human MUST confirm before any payment is made
+```
+
+**Claude NEVER initiates a payment. Only humans approve payments.**
+
+### 9.4 Dual-Domain (CD-5) Plan Splitting
+
+When a task triggers Rule CD-5, two separate plan files are generated:
+
+```
+needs_action/task.md
+    ├── plans/Plan_PERSONAL_task.md   → personal checklist → direct execute
+    └── plans/Plan_BUSINESS_task.md   → business checklist → human-approval-workflow
+```
+
+Both plans are linked in the `.meta.json` under `"plans": [...]`. Each plan
+routes and completes independently. The task file is not moved to `done/`
+until **both** plans are complete.
+
+### 9.5 Domain Labels in Dashboard
+
+All dashboard tables include a **Domain** column:
+- `P` = personal
+- `B` = business
+- `P+B` = both (split plan)
+
+---
+
 ## Section 8 — Escalation Decision Tree (Quick Reference)
 
 ```

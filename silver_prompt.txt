@@ -1,6 +1,6 @@
 You are running a Silver Cycle for the AI Employee Vault at D:\Hackathon_0\AI_Employee_Vault.
 
-Execute the following six Agent Skills in order. Each skill has full instructions in its SKILL.md file. Read each skill file before executing its step.
+Execute the following seven Agent Skills in order. Each skill has full instructions in its SKILL.md file. Read each skill file before executing its step.
 
 ---
 
@@ -16,8 +16,28 @@ Skill file: .claude/skills/multi-watcher-orchestration/SKILL.md
 
 ---
 
-SKILL 2 — /plan-creation-workflow
+SKILL 1.5 — /route-cross-domain-task
 For EVERY file in needs_action/ with status "pending":
+- Read task content and .meta.json sidecar
+- Classify domain: personal | business | both (keyword signal matching)
+- Apply cross-domain rules CD-1 → CD-6 in order (first match wins):
+    CD-1  WhatsApp + payment keyword + monetary pattern → Odoo invoice check + bank balance check → human-approval-workflow IMMEDIATELY
+    CD-2  WhatsApp + personal signal + monetary pattern → dual plan + human-approval-workflow
+    CD-3  LinkedIn message → contact lookup (known client = business, unknown = personal)
+    CD-4  Gmail + invoice/contract/PO → Odoo cross-check step added to plan → human-approval-workflow
+    CD-5  Domain = both → split into Plan_PERSONAL_<slug>.md + Plan_BUSINESS_<slug>.md, each routes independently
+    CD-6  Urgent keywords + business/both domain → priority: high + human-approval-workflow regardless of sensitivity
+- Generate domain-aware Plan file(s) in plans/ (two files if CD-5 applies)
+- Update .meta.json: set status "processing", add domain, domain_signals, cross_domain_rule, priority, sensitive, route
+- Log each routing decision via log-action
+- NEVER initiate a payment — CD-1 always routes to human-approval-workflow first
+Skill file: .claude/skills/route-cross-domain-task/SKILL.md
+
+---
+
+SKILL 2 — /plan-creation-workflow
+Fallback planner: handles any file in needs_action/ still at status "pending" after Skill 1.5
+(Skill 1.5 processes all pending tasks — Skill 2 catches edge cases only):
 - Analyse content (category, key phrases, sensitivity check)
 - Generate a detailed Plan_XXX.md in plans/ with numbered checkboxes specific to the category
 - Update .meta.json status to "processing" and set "plan" and "sensitive" fields
@@ -94,7 +114,7 @@ RULES (highest priority — override everything else):
 2. NEVER execute a sensitive action without an approval file in Approved/
 3. NEVER move approval files yourself — only humans move files to Approved/ or Rejected/
 4. NEVER skip dashboard-updater — every cycle must end with an updated dashboard
-5. If needs_action/ is empty after Skill 1, still run Skills 3, 5 (check approvals + LinkedIn), and 6
+5. If needs_action/ is empty after Skill 1, skip Skills 1.5 and 2; still run Skills 3, 5 (check approvals + LinkedIn), and 6
 
 ERROR HANDLING RULES (mandatory — applies to every skill above):
 6. On ANY network/API/timeout error: invoke handle-transient-error FIRST (5 retries, exponential backoff).
@@ -106,4 +126,4 @@ ERROR HANDLING RULES (mandatory — applies to every skill above):
    Skill file: .claude/skills/graceful-degrade/SKILL.md
 9. NEVER swallow exceptions silently. Every error → log-action entry + escalation skill.
 
-When all six skills are complete, output: SILVER CYCLE COMPLETE
+When all seven skills are complete, output: SILVER CYCLE COMPLETE
